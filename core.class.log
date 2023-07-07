@@ -1,0 +1,120 @@
+[handleMsg]:  {
+  key: {
+    remoteJid: '584122045282@s.whatsapp.net',
+    fromMe: false,
+    id: '4208B7A4AC82B862FD633B77C20FABF0',
+    participant: undefined
+  },
+  messageTimestamp: 1688702793,
+  pushName: 'Finanza',
+  broadcast: false,
+  message: Message {
+    conversation: 'Hola',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'Hola',
+  from: '584122045282'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '584122045282@s.whatsapp.net',
+    fromMe: false,
+    id: '9C65F64EA59380B1F05B670B9888D0E7',
+    participant: undefined
+  },
+  messageTimestamp: 1688702799,
+  pushName: 'Finanza',
+  broadcast: false,
+  message: Message {
+    conversation: '1',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: '1',
+  from: '584122045282'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '584122045282@s.whatsapp.net',
+    fromMe: false,
+    id: '3D4D91272B8DDF0BB6F155C0B4541CD2',
+    participant: undefined
+  },
+  messageTimestamp: 1688702806,
+  pushName: 'Finanza',
+  broadcast: false,
+  message: Message {
+    conversation: '4',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: '4',
+  from: '584122045282'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '584122045282@s.whatsapp.net',
+    fromMe: false,
+    id: 'CEB6054D21101F9058F420419B71149D',
+    participant: undefined
+  },
+  messageTimestamp: 1688702813,
+  pushName: 'Finanza',
+  broadcast: false,
+  message: Message {
+    conversation: 'Registro',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'Registro',
+  from: '584122045282'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '584122045282@s.whatsapp.net',
+    fromMe: false,
+    id: 'F4C1C774C9284234566F2DA675C32118',
+    participant: undefined
+  },
+  messageTimestamp: 1688702823,
+  pushName: 'Finanza',
+  broadcast: false,
+  message: Message {
+    conversation: 'Ok',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'Ok',
+  from: '584122045282'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '584122045282@s.whatsapp.net',
+    fromMe: false,
+    id: '66F8D3F1D6D54492720B6E3238E96A74',
+    participant: undefined
+  },
+  messageTimestamp: 1688702832,
+  pushName: 'Finanza',
+  broadcast: false,
+  message: Message {
+    conversation: '5',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: '5',
+  from: '584122045282'
+}
