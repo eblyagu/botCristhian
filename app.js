@@ -123,7 +123,7 @@ const flowApp = addKeyword(['1'])
   '',
   '*_Ingresa al Link y revisa toda la información:_*',
   
-  'https://trabajo-de-streamers.my.canva.site/trabajode-streamers',
+  'https://pandoraagenciaoficial.my.canva.site/salsa-app',
 ],
   {
     media: 'https://i.imgur.com/PeR8Rh6.jpeg',
@@ -178,7 +178,7 @@ const flowAgencia = addKeyword(['2'])
     }
   });
       
-  const flowPrincipal = addKeyword('Hola','hola','Ole','ola','Ola','ole')
+  const flowPrincipal = addKeyword('Hola','hola','Ole','ola','Ola','ole','Buenas','buenas,'Vi')
   .addAnswer(
     [
       '*_Bienvenida a Pandora Agencia_* 💸',
