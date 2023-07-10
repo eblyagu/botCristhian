@@ -178,7 +178,7 @@ const flowAgencia = addKeyword(['2'])
     }
   });
       
-  const flowPrincipal = addKeyword(['*'])
+  const flowPrincipal = addKeyword([ ])
   .addAnswer(
     [
       '*_Bienvenida a Pandora Agencia_* 💸',
