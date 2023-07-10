@@ -179,7 +179,6 @@ const flowAgencia = addKeyword(['2'])
   });
       
   const flowPrincipal = addKeyword([ ])
-    .excludeKeyword(['1', '2', '4', '5', '6'])
   .addAnswer(
     [
       '*_Bienvenida a Pandora Agencia_* 💸',
@@ -213,7 +212,8 @@ const flowAgencia = addKeyword(['2'])
         return fallBack('No elegiste una opción correcta');
       }
     }
-  );
+  )
+    .excludeAnswer((answer) => /^\d+$/.test(answer));
 
   const flowNoti = addKeyword('REGISTRO','registro','Registro')
   .addAction(async (ctx, { provider }) => {
