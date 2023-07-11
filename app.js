@@ -1,79 +1,108 @@
-const { createBot, createProvider, createFlow, addKeyword } = require('@bot-whatsapp/bot')
+const { createBot, createProvider, createFlow, addKeyword, EVENTS } = require('@bot-whatsapp/bot')
 
 const QRPortalWeb = require('@bot-whatsapp/portal')
 const BaileysProvider = require('@bot-whatsapp/provider/baileys')
 const MockAdapter = require('@bot-whatsapp/database/mock')
 
 
+const flowNotificacion = addKeyword('Asesor')
+  .addAction(async (ctx, { provider }) => {
+    Nombre = ctx.pushName;
+    Telefono = ctx.from;
+    id = "593993955087@s.whatsapp.net";
 
-const flowVolver = addKeyword(['5'])
+    const refProvider = await provider.getInstance();
+    await refProvider.sendMessage(id, {
+      text: `Hola *Asesor*, este usuario *${Nombre}* necesita tu atención. Escribele a este número ${Telefono}.`,
+    });
+  })
+  .addAnswer('*_Un asesor se pondrá en contacto contigo pronto_*');
+
+ 
+  const flowVolver = addKeyword(['5'])
+  .addAnswer('👉 *_Volviendo al menú inicial_*')
+  .addAction(async (ctx, { gotoFlow }) => {
+    await gotoFlow(flowPrincipal);
+  });
+
+  const flowVolver1 = addKeyword(['8'])
   .addAnswer('👉 *_Volviendo al menú inicial_*')
   .addAction(async (ctx, { gotoFlow }) => {
     await gotoFlow(flowPrincipal);
   });
 
 
-const flowRegistro = addKeyword('4').addAnswer(
-  [
-  '_Perfecto, Pasos a seguir para comenzar a trabajar._',
-  '',
-'📌 *_1er Paso:_*',
-'_Descargar la app *SALSA* en tu Smartphone_ 📲',
-'',
-'🔥*_Link:_*👇',
   
-'https://salsa-live.web.app/download/',
 
-'',
-'• _Si no te envia a la pagina, cierra todas las ventanas abiertas de tu navegador e intenta nuevamente_',
-'',
-'*⚠ _POR FAVOR LEER BIEN_⚠*',
 
-'📌 *_2do  Paso:_*',
-'',
-'_Crea tu perfil en *SALSA.*_', 
-'',
-'• _NO DEBES PONER TU NOMBRE REAL_ ❌',
-'',
-'• _Nuestra prioridad es resguardar tu identidad_ 🗳',
-'',
-'• _Buscamos mantener anonimato en la App_ 🔐',
-'',
-'• _Tu nombre Artístico debe llevar la 🔥 por delante ejemplo 🔥Sofía Hernández  (obligatorio y no cambiarlo y siempre uno falso)_', 
-'',
-'',
-'📌 *_3er Paso:_*',
- '_Enviame por este medio:  Capture del perfil realizado (debe ser captura) de tu ID de la app, son los números que se encuentran en la app, entrando al perfil._', 
-'',
-'',
-'📌 *_4to Paso:_*',
- '_Automáticamente enviar Nombre y apellido REAL y País donde te encuentras, esos datos son solamente para *NOSOTROS* como agencia_', 
-'',
-'',
-' _• La activacion es de 24 a 48 horas_',
-
-  ],{
-    media: 'https://i.imgur.com/OhKyOuq.jpeg',
-  }
-)
-  .addAnswer([
-    '⚠️ *IMPORTANTE* ⚠️',
-    '_Una vez registrada escribe la palabra (*REGISTRO*) y un asesor te atenderá en seguida._',
-    '',
-    '👉5️⃣ *_¡Volver¡_*',
-  ],
-  {
-    capture: true,
-     }, async (ctx, { gotoFlow,fallBack}) => {
-    console.log(ctx.body);
-    if (ctx.body === 'Registro','registro','REGISTRO') {
-      await gotoFlow(flowNoti);
-    } else if (ctx.body === '5') {
-      await gotoFlow(flowVolver);
-    }else {
-      return fallBack('No elegiste una opción correcta');
+  const flowRegistro = addKeyword('4').addAnswer(
+    [
+      '_Perfecto, Pasos a seguir para comenzar a trabajar._',
+      '',
+      '📌 *_1er Paso:_*',
+      '_Descargar la app *SALSA* en tu Smartphone_ 📲',
+      '',
+      '🔥*_Link:_*👇',
+      'https://salsa-live.web.app/download/',
+      '',
+      '• _Si no te envía a la página, cierra todas las ventanas abiertas de tu navegador e intenta nuevamente._',
+      '',
+      '*⚠ _POR FAVOR LEER BIEN_⚠*',
+      '',
+      '📌 *_2do  Paso:_*',
+      '',
+      '_Crea tu perfil en *SALSA.*_',
+      '',
+      '• _NO DEBES PONER TU NOMBRE REAL_ ❌',
+      '',
+      '• _Nuestra prioridad es resguardar tu identidad_ 🗳',
+      '',
+      '• _Buscamos mantener anonimato en la App_ 🔐',
+      '',
+      '• _Tu nombre Artístico debe llevar la 🔥 por delante ejemplo 🔥Sofía Hernández  (obligatorio y no cambiarlo y siempre uno falso)_',
+      '',
+      '',
+      '📌 *_3er Paso:_*',
+      '_Enviame por este medio:  Capture del perfil realizado (debe ser captura) de tu ID de la app, son los números que se encuentran en la app, entrando al perfil._',
+      '',
+      '',
+      '📌 *_4to Paso:_*',
+      '_Automáticamente enviar Nombre y apellido REAL y País donde te encuentras, esos datos son solamente para *NOSOTROS* como agencia_',
+      '',
+      '',
+      ' _• La activacion es de 24 a 48 horas_',
+    ],
+    {
+      media: 'https://i.imgur.com/OhKyOuq.jpeg',
     }
-  });
+  )
+    .addAnswer([
+      '⚠️ *IMPORTANTE* ⚠️',
+      '_Una vez registrada, escribe la palabra (*REGISTRO*) y un asesor te atenderá en seguida._',
+      '',
+      '👉5️⃣ *_¡Volver¡_*',
+    ],
+    {
+      capture: true,
+    }, async (ctx, { gotoFlow, fallBack, provider, flowDynamic }) => {
+      console.log(ctx.body);
+      if (ctx.body.toLowerCase() === 'registro') {
+        const Nombre = ctx.pushName;
+        const Telefono = ctx.from;
+        const id = '593993955087@s.whatsapp.net';
+  
+        const refProvider = await provider.getInstance();
+        await refProvider.sendMessage(id, {
+          text: `Hola *Asesor*, este usuario *${Nombre}* se quiere registrar. Escribele a este número ${Telefono}.`,
+        })
+        await flowDynamic('*_En un momento un asesor te contactará_*')
+        return;
+      } else if (ctx.body === '5') {
+        await gotoFlow(flowPrincipal);
+      } else {
+        return fallBack('No elegiste una opción correcta');
+      }
+    });
   
   const flowRedes = addKeyword(['6'])
   .addAnswer(
@@ -112,73 +141,62 @@ const flowRegistro = addKeyword('4').addAnswer(
 
 
 const flowApp = addKeyword(['1'])
-.addAnswer(
-  [
-  '*_CONOCE NUESTRA APLICACIÓN_*',
-'',
-  '_Trabajamos con la mejor App del mercado su nombre es salsa App, hemos preparado una pagina explicado todos los puntos importantes como:_💕',
-  '',
-  '🫴 *_Uso de la aplicación._*',
-  '🫰 *_Métodos de pagos._*',
-  '',
-  '*_Ingresa al Link y revisa toda la información:_*',
-  
-  'https://pandoraagenciaoficial.my.canva.site/salsa-app',
-],
+  .addAnswer([
+    '*_CONOCE NUESTRA APLICACIÓN_*',
+    '',
+    '_Trabajamos con la mejor App del mercado su nombre es salsa App, hemos preparado una pagina explicado todos los puntos importantes como:_💕',
+    '',
+    '🫴 *_Uso de la aplicación._*',
+    '🫰 *_Métodos de pagos._*',
+    '',
+    '*_Ingresa al Link y revisa toda la información:_*',
+    'https://pandoraagenciaoficial.my.canva.site/salsa-app',
+  ],
   {
     media: 'https://i.imgur.com/PeR8Rh6.jpeg',
+  }
+)
+  .addAnswer([
+    '‼ *_A continuación escribe el numero de la opción que más te interesa:_*‼',
+    '',
+    '👉 4️⃣*_¡Me quiero registrar!_*',
+    '👉5️⃣ *_¡Volver¡_*',
+  ], { capture: true }, async (ctx, { gotoFlow, fallBack }) => {
+    console.log(ctx.body);
+    if (ctx.body === '4' || ctx.body === '4️⃣') {
+      await gotoFlow(flowRegistro);
+    } else if (ctx.body === '5' || ctx.body === '5️⃣') {
+      await gotoFlow(flowPrincipal);
+    } else {
+      return fallBack('No elegiste una opción correcta');
+    }
+  });
 
-  }
-) 
-  .addAnswer(
-    [
-      '‼ *_A continuación escribe el numero de la opción que más te interesa:_*‼',
-      '',
-      '👉 4️⃣*_¡Me quiero registrar!_*',
-      '👉5️⃣ *_¡Volver¡_*',
-      
-    ],{
-  capture: true,
-   }, async (ctx, { gotoFlow,fallBack}) => {
-  console.log(ctx.body);
-  if (ctx.body === '4','4️⃣') {
-    await gotoFlow(flowRegistro);
-  }
-  else if (ctx.body === '5','5️⃣') {
-    await gotoFlow(flowVolver);
-  } else {
-    return fallBack('No elegiste una opción correcta');
-  }
-});
 
 const flowAgencia = addKeyword(['2'])
-.addAnswer([
-  '_Nuestra empresa cuenta con una amplia experiencia._✨',
-'',
-  '_A lo largo de los años hemos trabajado con numerosas Streamers, logrando resultados exitosos. _ 💸',
-  '',
-  '*_Nos enorgullece decir que nuestra trayectoria habla por si sola y que somos una empresa confiable._*',
-  
-]) 
-.addAnswer([
+  .addAnswer([
+    '_Nuestra empresa cuenta con una amplia experiencia._✨',
+    '',
+    '_A lo largo de los años hemos trabajado con numerosas Streamers, logrando resultados exitosos. _ 💸',
+    '',
+    '*_Nos enorgullece decir que nuestra trayectoria habla por sí sola y que somos una empresa confiable._*',
+  ])
+  .addAnswer([
     '*_Visita nuestras redes sociales:_* ',
-     '👉 6️⃣ *_Visita nuestras redes sociales:_*',
+    '👉 6️⃣ *_Visita nuestras redes sociales:_*',
     '👉 5️⃣ *_¡Volver!_*',
-  ], {
-    capture: true,
-  }, async (ctx, { gotoFlow,fallBack }) => {
-    console.log(ctx.body); 
-    if (ctx.body === '6','6️⃣') {
+  ], { capture: true }, async (ctx, { gotoFlow, fallBack }) => {
+    console.log(ctx.body);
+    if (ctx.body === '6' || ctx.body === '6️⃣') {
       await gotoFlow(flowRedes);
-    } 
-    else if (ctx.body === '5') {
-      await gotoFlow(flowVolver);
-    }else {
+    } else if (ctx.body === '5' || ctx.body === '5️⃣') {
+      await gotoFlow(flowPrincipal);
+    } else {
       return fallBack('No elegiste una opción correcta');
     }
   });
       
-  const flowPrincipal = addKeyword([ ])
+  const flowPrincipal = addKeyword(EVENTS.WELCOME)
   .addAnswer(
     [
       '*_Bienvenida a Pandora Agencia_* 💸',
@@ -211,40 +229,15 @@ const flowAgencia = addKeyword(['2'])
       else {
         return fallBack('No elegiste una opción correcta');
       }
-    }
-  )
-    .excludeAnswer((answer) => /^\d+$/.test(answer));
+    },
+    [flowApp, flowAgencia,flowNotificacion]
+  );
 
-  const flowNoti = addKeyword('REGISTRO','registro','Registro')
-  .addAction(async (ctx, { provider }) => {
-    Nombre = ctx.pushName;
-    Telefono = ctx.from;
-    id = "593993955087@s.whatsapp.net";
-
-    const refProvider = await provider.getInstance();
-    await refProvider.sendMessage(id, {
-      text: `Hola *Asesor*, este usuario *${Nombre}* se quiere registrar. Escribele a este número ${Telefono}.`,
-    });
-  })
-  .addAnswer('*_Un asesor se pondrá en contacto contigo pronto_*');
-
-  const flowNotificacion = addKeyword('Asesor')
-  .addAction(async (ctx, { provider }) => {
-    Nombre = ctx.pushName;
-    Telefono = ctx.from;
-    id = "593993955087@s.whatsapp.net";
-
-    const refProvider = await provider.getInstance();
-    await refProvider.sendMessage(id, {
-      text: `Hola *Asesor*, este usuario *${Nombre}* necesita tu atención. Escribele a este número ${Telefono}.`,
-    });
-  })
-  .addAnswer('*_Un asesor se pondrá en contacto contigo pronto_*');
  
   
 const main = async () => {
     const adapterDB = new MockAdapter()
-    const adapterFlow = createFlow([flowPrincipal,flowRegistro,flowRedes,flowVolver,flowNotificacion,flowNoti])
+    const adapterFlow = createFlow([flowPrincipal,flowRegistro,flowRedes,flowVolver,flowNotificacion,flowVolver1])
     const adapterProvider = createProvider(BaileysProvider)
 
     createBot({
